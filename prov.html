@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LE PROVOCATOUR — Private Immersive Dining Experiences</title>
+<meta name="description" content="Le Provocatour — private, immersive dining experiences in Mallorca. By invitation only.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a0a0b;
+    --ink-2:#111113;
+    --bone:#f2efe9;
+    --bone-dim:#c9c4ba;
+    --muted:#7d7973;
+    --red:#e31b23;
+    --yellow:#ffc72c;
+    --blue:#0057a0;
+    --line: rgba(242,239,233,0.14);
+    --ease: cubic-bezier(.22,.68,.02,1);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--ink);
+    color:var(--bone);
+    font-family:'Jost', sans-serif;
+    font-weight:300;
+    letter-spacing:0.02em;
+    overflow-x:hidden;
+  }
+
+  ::selection{background:var(--yellow); color:var(--ink);}
+
+  /* grain overlay */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    z-index:999;
+    pointer-events:none;
+    opacity:0.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  h1,h2,h3{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:400;
+    letter-spacing:0.02em;
+  }
+
+  a{color:inherit; text-decoration:none;}
+
+  .eyebrow{
+    font-size:0.72rem;
+    letter-spacing:0.32em;
+    text-transform:uppercase;
+    color:var(--bone-dim);
+  }
+
+  /* signature tri-band seal — appears once */
+  .seal{
+    width:64px;
+    height:3px;
+    display:flex;
+    margin:28px auto;
+    overflow:hidden;
+    border-radius:2px;
+  }
+  .seal span{flex:1; height:100%;}
+  .seal .b{background:var(--blue);}
+  .seal .y{background:var(--yellow);}
+  .seal .r{background:var(--red);}
+
+  section{
+    position:relative;
+    width:100%;
+  }
+
+  /* reveal */
+  .reveal{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity 1.1s var(--ease), transform 1.1s var(--ease);
+  }
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ===== NAV ===== */
+  nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:200;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:28px 6vw;
+    mix-blend-mode:difference;
+  }
+  .nav-mark{
+    font-family:'Cormorant Garamond', serif;
+    font-size:1rem;
+    letter-spacing:0.22em;
+  }
+  .nav-cta{
+    font-size:0.7rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    border-bottom:1px solid var(--bone);
+    padding-bottom:3px;
+  }
+
+  /* ===== HERO ===== */
+  .hero{
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:120px 6vw 80px;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 20%, rgba(255,199,44,0.05), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 20% 90%, rgba(0,87,160,0.10), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 85% 85%, rgba(227,27,35,0.08), transparent 60%),
+      linear-gradient(180deg, #0a0a0b 0%, #0d0d0f 100%);
+  }
+  .hero .eyebrow{margin-bottom:26px; opacity:0.8;}
+  .hero h1{
+    font-size:clamp(3rem, 10vw, 7.5rem);
+    line-height:0.95;
+    letter-spacing:0.03em;
+    font-style:italic;
+    font-weight:300;
+  }
+  .hero .sub{
+    margin-top:22px;
+    font-size:clamp(0.95rem, 1.6vw, 1.2rem);
+    color:var(--bone-dim);
+    letter-spacing:0.06em;
+  }
+  .hero .icons{
+    margin-top:34px;
+    font-size:0.95rem;
+    letter-spacing:0.12em;
+    color:var(--bone-dim);
+  }
+  .hero .icons span{margin:0 10px; white-space:nowrap;}
+  .hero .tagline{
+    margin-top:30px;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:clamp(1.1rem, 2.4vw, 1.6rem);
+    color:var(--bone);
+    max-width:640px;
+  }
+  .lock-line{
+    margin-top:46px;
+    font-size:0.72rem;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .btn{
+    display:inline-block;
+    margin-top:26px;
+    padding:16px 40px;
+    border:1px solid var(--bone);
+    font-size:0.72rem;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    transition:background 0.4s var(--ease), color 0.4s var(--ease), letter-spacing 0.4s var(--ease);
+  }
+  .btn:hover{
+    background:var(--bone);
+    color:var(--ink);
+    letter-spacing:0.34em;
+  }
+
+  .scroll-hint{
+    position:absolute;
+    bottom:34px; left:50%;
+    transform:translateX(-50%);
+    width:1px; height:46px;
+    background:linear-gradient(to bottom, transparent, var(--muted) 40%, transparent);
+  }
+
+  /* ===== ABOUT ===== */
+  .about{
+    padding:180px 8vw;
+    text-align:center;
+    max-width:900px;
+    margin:0 auto;
+  }
+  .about h2{
+    font-size:clamp(1.8rem, 4vw, 2.6rem);
+    font-style:italic;
+    font-weight:300;
+    line-height:1.35;
+  }
+  .about .triad{
+    margin-top:64px;
+    display:flex;
+    justify-content:center;
+    gap:60px;
+    flex-wrap:wrap;
+    font-size:0.78rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--bone-dim);
+  }
+  .about .triad div{padding-top:16px; border-top:1px solid var(--line); width:160px;}
+
+  /* ===== EXPERIENCE ===== */
+  .experience{
+    padding:160px 6vw;
+    background:var(--ink-2);
+    text-align:center;
+  }
+  .experience .eyebrow{margin-bottom:20px;}
+  .experience h2{font-size:clamp(1.8rem,3.6vw,2.4rem); font-style:italic; font-weight:300; margin-bottom:70px;}
+  .exp-grid{
+    max-width:960px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    row-gap:56px;
+  }
+  .exp-item{
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.3rem;
+    font-style:italic;
+    color:var(--bone);
+    border-right:1px solid var(--line);
+  }
+  .exp-item:nth-child(3n){border-right:none;}
+  .exp-item span{
+    display:block;
+    font-family:'Jost', sans-serif;
+    font-style:normal;
+    font-size:0.68rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-top:10px;
+  }
+
+  /* ===== GALLERY / VIDEO FRAMES ===== */
+  .gallery{
+    padding:120px 0;
+    text-align:center;
+  }
+
+  .video-grid{
+    margin-top:0;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:2px;
+    background:var(--line);
+  }
+  .video-frame{
+    position:relative;
+    aspect-ratio:4/5;
+    overflow:hidden;
+    background:#000;
+  }
+  .video-frame video{
+    width:100%; height:100%;
+    object-fit:contain;
+    display:block;
+    background:#000;
+    filter:grayscale(15%) contrast(1.05);
+    transition:filter 0.6s var(--ease);
+  }
+  .video-frame:hover video{filter:grayscale(0%) contrast(1.1);}
+  .video-frame::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.55) 100%);
+    pointer-events:none;
+  }
+  .video-frame .label{
+    position:absolute;
+    bottom:18px; left:22px;
+    font-size:0.68rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--bone-dim);
+    z-index:2;
+  }
+  .sound-toggle{
+    position:absolute;
+    bottom:14px; right:16px;
+    z-index:3;
+    width:38px; height:38px;
+    border:1px solid rgba(242,239,233,0.35);
+    border-radius:50%;
+    background:rgba(10,10,11,0.5);
+    backdrop-filter:blur(4px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    font-size:0.85rem;
+    color:var(--bone);
+    transition:border-color 0.3s var(--ease), background 0.3s var(--ease);
+  }
+  .sound-toggle:hover{border-color:var(--yellow);}
+  .sound-toggle.on{background:rgba(255,199,44,0.15); border-color:var(--yellow);}
+
+  @media (max-width:720px){
+    .video-grid{grid-template-columns:1fr;}
+    .video-frame{aspect-ratio:9/12;}
+  }
+
+  /* ===== FAQ ===== */
+  .faq{
+    padding:160px 6vw;
+    max-width:760px;
+    margin:0 auto;
+  }
+  .faq h2{
+    text-align:center;
+    font-size:clamp(1.8rem,3.6vw,2.4rem);
+    font-style:italic;
+    font-weight:300;
+    margin-bottom:70px;
+  }
+  details{
+    border-top:1px solid var(--line);
+    padding:26px 0;
+  }
+  details:last-of-type{border-bottom:1px solid var(--line);}
+  summary{
+    cursor:pointer;
+    list-style:none;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.3rem;
+    font-style:italic;
+  }
+  summary::-webkit-details-marker{display:none;}
+  summary::after{
+    content:"+";
+    font-family:'Jost', sans-serif;
+    font-style:normal;
+    font-size:1.4rem;
+    color:var(--muted);
+    transition:transform 0.35s var(--ease);
+  }
+  details[open] summary::after{transform:rotate(45deg);}
+  details p{
+    margin-top:16px;
+    color:var(--bone-dim);
+    font-size:0.95rem;
+    line-height:1.6;
+    max-width:560px;
+  }
+
+  /* ===== FINAL CTA ===== */
+  .final{
+    min-height:80svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:100px 6vw;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 100%, rgba(227,27,35,0.06), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 15% 10%, rgba(0,87,160,0.08), transparent 60%),
+      #0a0a0b;
+  }
+  .final h2{
+    font-size:clamp(2.2rem, 5.5vw, 4rem);
+    font-style:italic;
+    font-weight:300;
+    max-width:720px;
+    line-height:1.2;
+  }
+
+  /* ===== FOOTER ===== */
+  footer{
+    padding:70px 6vw 50px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:26px;
+    border-top:1px solid var(--line);
+    text-align:center;
+  }
+  .foot-mark{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:1.1rem;
+    letter-spacing:0.1em;
+  }
+  .socials{
+    display:flex;
+    gap:34px;
+    flex-wrap:wrap;
+    justify-content:center;
+    font-size:0.72rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--bone-dim);
+  }
+  .socials a{
+    padding-bottom:4px;
+    border-bottom:1px solid transparent;
+    transition:border-color 0.3s var(--ease), color 0.3s var(--ease);
+  }
+  .socials a:hover{border-color:var(--yellow); color:var(--bone);}
+  .foot-note{font-size:0.66rem; letter-spacing:0.1em; color:var(--muted);}
+
+  /* floating instagram tab */
+  .float-ig{
+    position:fixed;
+    right:0;
+    bottom:34px;
+    z-index:150;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:8px;
+  }
+  .float-ig a{
+    background:rgba(10,10,11,0.85);
+    border:1px solid var(--line);
+    border-right:none;
+    padding:10px 18px 10px 16px;
+    font-size:0.66rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--bone-dim);
+    backdrop-filter:blur(6px);
+    transition:color 0.3s var(--ease), padding 0.3s var(--ease), border-color 0.3s var(--ease);
+  }
+  .float-ig a:hover{color:var(--yellow); padding-right:26px; border-color:var(--yellow);}
+
+  @media (max-width:720px){
+    .exp-grid{grid-template-columns:1fr 1fr; row-gap:44px;}
+    .exp-item:nth-child(2n){border-right:none;}
+    .exp-item:nth-child(3n){border-right:1px solid var(--line);}
+    .float-ig{display:none;}
+  }
+  @media (max-width:480px){
+    .exp-grid{grid-template-columns:1fr;}
+    .exp-item{border-right:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-mark">LE PROVOCATOUR</div>
+  <a class="nav-cta" href="#invitation">Request Invitation</a>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="eyebrow">Private Immersive Dining Experiences</div>
+  <h1>Le Provocatour</h1>
+  <div class="seal"><span class="b"></span><span class="y"></span><span class="r"></span></div>
+  <div class="icons">
+    <span>🎭 Art</span> · <span>🍽️ Gastronomy</span> · <span>🎶 Music</span> · <span>✨ Mystery</span>
+  </div>
+  <p class="tagline">Awaken your senses beyond your imagination.</p>
+  <p class="lock-line">🔒 By Invitation Only</p>
+  <a class="btn" href="#invitation">Request an Invitation</a>
+  <div class="scroll-hint"></div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section class="about reveal">
+  <div class="eyebrow">About</div>
+  <h2 style="margin-top:22px;">Le Provocatour creates exclusive immersive dining experiences where gastronomy, art and performance become one.</h2>
+  <div class="triad">
+    <div>Every event is unique</div>
+    <div>Every location remains secret</div>
+    <div>Every menu is created exclusively for that evening</div>
+  </div>
+</section>
+
+<!-- ===== EXPERIENCE ===== -->
+<section class="experience reveal">
+  <div class="eyebrow">The Experience</div>
+  <h2>Six elements. One evening.</h2>
+  <div class="exp-grid">
+    <div class="exp-item">✨<span>Secret Locations</span></div>
+    <div class="exp-item">🍽️<span>Extraordinary Gastronomy</span></div>
+    <div class="exp-item">🎭<span>Live Performances</span></div>
+    <div class="exp-item">🎶<span>Music &amp; Atmosphere</span></div>
+    <div class="exp-item">🥂<span>Curated Drinks</span></div>
+    <div class="exp-item">🤍<span>Meaningful Connections</span></div>
+  </div>
+</section>
+
+<!-- ===== GALLERY (video frames) ===== -->
+<section class="gallery reveal">
+  <div class="video-grid">
+    <div class="video-frame">
+      <video src="a.mp4" autoplay muted loop playsinline></video>
+      <div class="label">I</div>
+      <div class="sound-toggle" aria-label="Toggle sound">🔇</div>
+    </div>
+    <div class="video-frame">
+      <video src="b.mp4" autoplay muted loop playsinline></video>
+      <div class="label">II</div>
+      <div class="sound-toggle" aria-label="Toggle sound">🔇</div>
+    </div>
+    <div class="video-frame">
+      <video src="c.mp4" autoplay muted loop playsinline></video>
+      <div class="label">III</div>
+      <div class="sound-toggle" aria-label="Toggle sound">🔇</div>
+    </div>
+    <div class="video-frame">
+      <video src="d.mp4" autoplay muted loop playsinline></video>
+      <div class="label">IV</div>
+      <div class="sound-toggle" aria-label="Toggle sound">🔇</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq reveal">
+  <h2>Questions</h2>
+
+  <details>
+    <summary>Where?</summary>
+    <p>A secret location in Mallorca, revealed only to those invited.</p>
+  </details>
+  <details>
+    <summary>Can anyone attend?</summary>
+    <p>No. Attendance is by invitation only.</p>
+  </details>
+  <details>
+    <summary>How do I apply?</summary>
+    <p>Request an invitation through this website, or reach us directly through our Instagram.</p>
+  </details>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="final reveal" id="invitation">
+  <div class="eyebrow">Ready to experience the unexpected?</div>
+  <h2 style="margin-top:22px;">Request Your Invitation</h2>
+  <div class="seal"><span class="b"></span><span class="y"></span><span class="r"></span></div>
+  <a class="btn" href="https://instagram.com/leprovocatour" target="_blank" rel="noopener">Request an Invitation</a>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="foot-mark">Le Provocatour</div>
+  <div class="socials">
+    <a href="https://instagram.com/leprovocatour" target="_blank" rel="noopener">@leprovocatour</a>
+    <a href="https://instagram.com/miguelsuch" target="_blank" rel="noopener">@miguelsuch</a>
+    <a href="https://instagram.com/experimenta_tv" target="_blank" rel="noopener">@experimenta_tv</a>
+  </div>
+  <div class="foot-note">Mallorca · By Invitation Only</div>
+</footer>
+
+<div class="float-ig">
+  <a href="https://instagram.com/leprovocatour" target="_blank" rel="noopener">Instagram ↗</a>
+</div>
+
+<script>
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.15});
+  els.forEach(el=>io.observe(el));
+
+  // sound toggles — only one video plays with sound at a time
+  const frames = document.querySelectorAll('.video-frame');
+  frames.forEach(frame=>{
+    const video = frame.querySelector('video');
+    const toggle = frame.querySelector('.sound-toggle');
+    toggle.addEventListener('click', ()=>{
+      const turningOn = video.muted;
+      frames.forEach(f=>{
+        const v = f.querySelector('video');
+        const t = f.querySelector('.sound-toggle');
+        v.muted = true;
+        t.textContent = '🔇';
+        t.classList.remove('on');
+      });
+      if(turningOn){
+        video.muted = false;
+        toggle.textContent = '🔊';
+        toggle.classList.add('on');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
